@@ -1,4 +1,11 @@
 import express from "express";
+import {
+  getStudents,
+  createStudent,
+  updateStudent,
+  deleteStudent,
+  seedDatabase,
+} from "../controllers/studentcontroller.js";
 
 const router = express.Router();
 
