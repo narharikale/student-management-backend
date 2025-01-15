@@ -1,4 +1,5 @@
 import pool from "../config/db.js";
+import { v4 as uuidv4 } from "uuid";
 
 export const createStudentTable = async () => {
   const client = await pool.connect();
@@ -33,6 +34,9 @@ export const getAllStudents = async () => {
 
 export const insertStudent = async (student) => {
   const client = await pool.connect();
+  const id = uuidv4();
+  const createdAt = new Date();
+  const updatedAt = new Date();
   try {
     const result = await client.query(
       `
@@ -41,13 +45,13 @@ export const insertStudent = async (student) => {
       RETURNING *;
     `,
       [
-        student.id,
+        id,
         student.name,
         student.age,
         student.class,
         student.phoneNumber,
-        student.createdAt,
-        student.updatedAt,
+        createdAt,
+        updatedAt,
       ]
     );
     return result.rows[0];
@@ -56,22 +60,34 @@ export const insertStudent = async (student) => {
   }
 };
 
-export const updateStudentById = async (id, updates) => {
-  const client = await pool.connect();
-  const fields = Object.keys(updates);
-  const setClauses = fields.map((field, index) => `"${field}" = $${index + 1}`);
-  const query = `
-    UPDATE students
-    SET ${setClauses.join(", ")}, "updatedat" = $${fields.length + 1}
-    WHERE id = $${fields.length + 2}
-    RETURNING *;
-  `;
-  const values = [...fields.map((field) => updates[field]), new Date(), id];
+export const updateStudentById = async (id, student) => {
+  const updatedAt = new Date();
+  const query = {
+    text: `
+        UPDATE students 
+        SET name = $1, 
+            age = $2, 
+            class = $3,
+            phoneNumber = $4,
+            updatedAt = $5
+        WHERE id = $6
+        RETURNING *
+      `,
+    values: [
+      student.name,
+      student.age,
+      student.class,
+      student.phoneNumber,
+      updatedAt,
+      id,
+    ],
+  };
+
   try {
-    const result = await client.query(query, values);
+    const result = await pool.query(query);
     return result.rows[0];
-  } finally {
-    client.release();
+  } catch (error) {
+    throw new Error(`Failed to update student: ${error.message}`);
   }
 };
 
