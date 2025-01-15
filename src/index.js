@@ -12,7 +12,10 @@ const app = express();
 //middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://lovely-dragon-46fc9c.netlify.app",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -25,5 +28,5 @@ app.use("/api/students", studentRouter);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Listening to http://localhost:${PORT}`);
+  console.log(`Listening to ${PORT}`);
 });
