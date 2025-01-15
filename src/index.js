@@ -15,7 +15,9 @@ app.use(cors()); // Enable All CORS Requests
 app.use(express.json());
 
 app.use("/api/students", studentRouter);
-app.use("/", "Hello world");
+app.get("/", (req, res) => {
+  res.send("rest api with node.js and express");
+});
 
 app.use(errorHandler);
 
