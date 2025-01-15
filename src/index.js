@@ -10,13 +10,7 @@ const PORT = process.env.PORT || 4242;
 const app = express();
 
 //middleware
-app.use(
-  cors({
-    origin: ["*"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: false,
-  })
-);
+app.use(cors()); // Enable All CORS Requests
 
 app.use(express.json());
 
