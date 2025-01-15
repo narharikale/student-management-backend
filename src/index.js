@@ -12,12 +12,9 @@ const app = express();
 //middleware
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://lovely-dragon-46fc9c.netlify.app",
-    ],
+    origin: ["*"],
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+    credentials: false,
   })
 );
 
