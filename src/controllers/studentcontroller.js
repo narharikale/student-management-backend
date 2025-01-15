@@ -88,6 +88,6 @@ export const seedDatabase = async (req, res, next) => {
     await Promise.all(insertPromises);
     res.json({ success: true, message: "Database seeded successfully" });
   } catch (error) {
-    next(error);
+    //next(error);
   }
 };

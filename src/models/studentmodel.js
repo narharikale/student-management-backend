@@ -40,7 +40,7 @@ export const insertStudent = async (student) => {
   try {
     const result = await client.query(
       `
-      INSERT INTO students (id, name, age, class, phoneNumber, createdAt, updatedAt)
+      INSERT INTO students (id, name, age, class, phoneNumber, createdat, updatedat)
       VALUES ($1, $2, $3, $4, $5, $6, $7)
       RETURNING *;
     `,
@@ -49,7 +49,7 @@ export const insertStudent = async (student) => {
         student.name,
         student.age,
         student.class,
-        student.phoneNumber,
+        student.phonenumber,
         createdAt,
         updatedAt,
       ]
@@ -68,8 +68,8 @@ export const updateStudentById = async (id, student) => {
         SET name = $1, 
             age = $2, 
             class = $3,
-            phoneNumber = $4,
-            updatedAt = $5
+            phonenumber = $4,
+            updatedat = $5
         WHERE id = $6
         RETURNING *
       `,
